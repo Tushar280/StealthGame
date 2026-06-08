@@ -28,17 +28,18 @@ public class PlayerMovement : MonoBehaviour
         
         float horizontal = pos.x;
         float vertical = pos.y;
-        
-        m_Movement.Set(horizontal, 0f, vertical);
-        m_Movement.Normalize ();
 
         bool hasHorizontalInput = !Mathf.Approximately (horizontal, 0f);
         bool hasVerticalInput = !Mathf.Approximately (vertical, 0f);
         bool isWalking = hasHorizontalInput || hasVerticalInput;
         m_Animator.SetBool ("IsWalking", isWalking);
 
-        Vector3 desiredForward = Vector3.RotateTowards (transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
-        m_Rotation = Quaternion.LookRotation (desiredForward);
+        // Rotation: Rotate around Y axis using horizontal input
+        float turnAmount = horizontal * turnSpeed * Mathf.Rad2Deg * Time.deltaTime;
+        m_Rotation = m_Rigidbody.rotation * Quaternion.Euler(0f, turnAmount, 0f);
+        
+        // Movement: Move forward/backward relative to the character's facing direction
+        m_Movement = m_Rotation * Vector3.forward * vertical;
         
         m_Rigidbody.MoveRotation (m_Rotation);
         m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * walkSpeed * Time.deltaTime);
