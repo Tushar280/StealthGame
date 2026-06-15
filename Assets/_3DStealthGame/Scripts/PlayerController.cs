@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
 
+    private List<string> m_OwnedKeys = new List<string>();
+
     void Start ()
     {
         m_Animator = GetComponent<Animator>();
@@ -57,5 +59,14 @@ public class PlayerController : MonoBehaviour
             m_AudioSource.Stop();
         }
     }
-    
+
+    public void AddKey(string keyName)
+    {
+        m_OwnedKeys.Add(keyName);
+    }
+
+    public bool OwnKey(string keyName)
+    {
+        return m_OwnedKeys.Contains(keyName);
+    }
 }
