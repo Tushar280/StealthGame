@@ -28,9 +28,9 @@ public class GameEnding : MonoBehaviour
         m_EndScreen = uiDocument.rootVisualElement.Q<VisualElement>("EndScreen");
         m_CaughtScreen = uiDocument.rootVisualElement.Q<VisualElement>("CaughtScreen");
         m_Demo_GameTimerLabel = uiDocument.rootVisualElement.Q<Label>("TimerLabel");
-m_Demo_GameTimer = 0.0f;
-m_Demo_GameTimerIsTicking = true;
-Demo_UpdateTimerLabel();
+        m_Demo_GameTimer = 0.0f;
+        m_Demo_GameTimerIsTicking = true;
+        Demo_UpdateTimerLabel();
     }
     
     void OnTriggerEnter (Collider other)
@@ -49,10 +49,10 @@ Demo_UpdateTimerLabel();
     void Update ()
     {
         if (m_Demo_GameTimerIsTicking)
-{
-    m_Demo_GameTimer += Time.deltaTime;
-    Demo_UpdateTimerLabel();
-}
+        {
+            m_Demo_GameTimer += Time.deltaTime;
+            Demo_UpdateTimerLabel();
+        }
         if (m_IsPlayerAtExit)
         {
             EndLevel (m_EndScreen, false, exitAudio);
