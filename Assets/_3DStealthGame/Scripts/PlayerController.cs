@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     AudioSource m_AudioSource;
     Animator m_Animator;
@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start ()
     {
+        m_Animator = GetComponent<Animator>();
         m_AudioSource = GetComponent<AudioSource>();
         m_Rigidbody = GetComponent<Rigidbody> ();
         MoveAction.Enable();
@@ -32,6 +33,11 @@ public class PlayerMovement : MonoBehaviour
         
         m_Movement.Set(horizontal, 0f, vertical);
         m_Movement.Normalize ();
+
+        bool hasHorizontalInput = !Mathf.Approximately (horizontal, 0f);
+        bool hasVerticalInput = !Mathf.Approximately (vertical, 0f);
+        bool isWalking = hasHorizontalInput || hasVerticalInput;
+        m_Animator.SetBool ("IsWalking", isWalking);
 
         Vector3 desiredForward = Vector3.RotateTowards (transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
         m_Rotation = Quaternion.LookRotation (desiredForward);
