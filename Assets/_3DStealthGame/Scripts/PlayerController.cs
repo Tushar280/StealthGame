@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    AudioSource m_AudioSource;
     Animator m_Animator;
     Rigidbody m_Rigidbody;
     public InputAction MoveAction;
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start ()
     {
+        m_AudioSource = GetComponent<AudioSource>();
         m_Rigidbody = GetComponent<Rigidbody> ();
         MoveAction.Enable();
     }
@@ -36,6 +38,18 @@ public class PlayerMovement : MonoBehaviour
         
         m_Rigidbody.MoveRotation (m_Rotation);
         m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * walkSpeed * Time.deltaTime);
+        
+        if (isWalking)
+        {
+            if (!m_AudioSource.isPlaying)
+            {
+                m_AudioSource.Play();
+            }
+        }
+        else
+        {
+            m_AudioSource.Stop();
+        }
     }
     
 }
